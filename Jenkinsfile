@@ -4,13 +4,13 @@ node{
     {
         git url: 'https://github.com/VarhaKhan/cloudproject.git'
     }
-/*
+
     stage('Run Docker Compose File')
     {
         sh 'sudo docker-compose build'
         sh 'sudo docker-compose up -d'
     }
-    
+/*    
   stage('PUSH image to Docker Hub')
     {
        withCredentials([string(credentialsId: 'DockerHubPassword', variable: 'DHPWD')]) 

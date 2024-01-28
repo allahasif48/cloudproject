@@ -18,9 +18,10 @@ pipeline
         stage('Verify Tools')
         {
             steps{
+                 def dockerCommand = "/usr/bin/docker --version"
                  sh '''
-                 docker --version
-                 docker info
+                 ${dockerCommand} --version
+                 ${dockerCommand} info
                  docker compose --version
                  curl --version
                  jq --version

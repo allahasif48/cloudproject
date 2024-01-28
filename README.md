@@ -1,2 +1,1 @@
-# online-shop
-Online Shop
+An E-commerce Application - PHP | MySQL

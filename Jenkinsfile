@@ -1,16 +1,43 @@
-node{
+pipeline 
+{
+    agent any
+    options {
+        timeout(time: 5, unit: 'MINUTES')
+            }
+    
+    stages {
+        stage('SCM Checkout') 
+        {
+            steps{
+                echo "Checkout..."
+                      git url: 'https://github.com/VarhaKhan/cloudproject.git', 
+                          branch: 'feature'
+            }   
+        }
 
-    stage('SCM Checkout')
-    {
-        git url: 'https://github.com/VarhaKhan/cloudproject.git'
+        stage('Verify Tools')
+        {
+            steps{
+                 sh '''
+                 docker --version
+                 docker info
+                 docker compose --version
+                 curl --version
+                 jq --version
+                 '''
+            }
+        }
     }
+}
+        
 
-    stage('Run Docker Compose File')
+/*
+        stage('Run Docker Compose File')
     {
-        sh ' docker-compose build'
-        sh ' docker-compose up -d'
+        sh 'sudo docker-compose build'
+        sh ' sudo docker-compose up -d'
     }
-/*    
+  
   stage('PUSH image to Docker Hub')
     {
        withCredentials([string(credentialsId: 'DockerHubPassword', variable: 'DHPWD')]) 
@@ -29,5 +56,4 @@ node{
           
     }
 */
-}
 

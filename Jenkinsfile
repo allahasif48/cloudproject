@@ -16,8 +16,9 @@ pipeline
         }
 
         stage('Check Docker Availability') {
-                script {
+                steps {
                     // Check if Docker CLI is installed
+                    script{
                     def dockerInstalled = sh(script: 'command -v docker', returnStatus: true) == 0
 
                     if (!dockerInstalled) {
@@ -30,9 +31,8 @@ pipeline
                 }
             }
         }
-
-        // Other stages of your pipeline
     }
+}
 
 //    post {
   //      always {

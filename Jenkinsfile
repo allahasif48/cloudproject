@@ -12,37 +12,34 @@ pipeline
                 echo "Checkout..."
                       git url: 'https://github.com/VarhaKhan/cloudproject.git', 
                           branch: 'feature'
-            }   
+            } 
         }
 
-        stage('Verify Tools')
-        {
-            steps{
-                  sh '''
-                    /usr/bin/docker --version
-                    /usr/bin/docker info
-                    docker compose --version
-                    curl --version
-                    jq --version
-                    '''
+        stage('Check Docker Availability') {
+                script {
+                    // Check if Docker CLI is installed
+                    def dockerInstalled = sh(script: 'command -v docker', returnStatus: true) == 0
+
+                    if (!dockerInstalled) {
+                        error('Docker is not installed. Please install Docker on the Jenkins agent.')
+                    }
+
+                    // Check Docker version
+                    def dockerVersion = sh(script: 'docker --version', returnStdout: true).trim()
+                    echo "Docker version: ${dockerVersion}"
+                }
             }
         }
+
+        // Other stages of your pipeline
     }
-}
-        
 
-
-
-
-
-
-
-
-
-
-
-
-
+//    post {
+  //      always {
+            // Cleanup or additional steps
+    //    }
+    //}
+//}
 
 
 /*

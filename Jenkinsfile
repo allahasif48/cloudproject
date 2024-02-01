@@ -31,6 +31,22 @@ pipeline
                 }
             }
         }
+        stage('Run Docker Compose') {
+            steps {
+                script {
+                    // Make sure Docker Compose is installed
+                    def dockerComposeInstalled = sh(script: 'command -v docker-compose', returnStatus: true) == 0
+
+                    if (!dockerComposeInstalled) {
+                        error('Docker Compose is not installed. Please install Docker Compose on the Jenkins agent.')
+                    }
+
+                    // Run Docker Compose
+                    sh 'docker-compose build'
+                    sh 'docker-compose up -d'
+                }
+            }
+        }
     }
 }
 

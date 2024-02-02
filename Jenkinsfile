@@ -50,7 +50,8 @@ pipeline
     } 
    post {
         always {
-             Cleanup or additional steps
+              // Cleanup or additional steps
+            sh 'docker-compose down'
        }
     }
   

@@ -47,13 +47,13 @@ pipeline
                 }
             }
         }
-   
+    } 
    post {
         always {
              Cleanup or additional steps
        }
     }
-  }
+  
 }
 
 

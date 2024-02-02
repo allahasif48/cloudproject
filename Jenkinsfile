@@ -47,15 +47,14 @@ pipeline
                 }
             }
         }
+   
+   post {
+        always {
+             Cleanup or additional steps
+       }
     }
+  }
 }
-
-//    post {
-  //      always {
-            // Cleanup or additional steps
-    //    }
-    //}
-//}
 
 
 /*

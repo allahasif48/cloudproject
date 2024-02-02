@@ -11,6 +11,7 @@ services:
          - db  
        ports:
          - 8008:80
+         
   db:
           container_name: mysqli
           image: mysql:latest

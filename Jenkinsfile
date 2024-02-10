@@ -48,20 +48,18 @@ pipeline
             }
         }
     } 
-}
-
     
-    /* post {
+     post {
         always {
               // Cleanup or additional steps
             sh 'docker-compose down'
        }
     }
-  
+}
 
 
 
-
+/*
         stage('Run Docker Compose File')
     {
         sh 'sudo docker-compose build'

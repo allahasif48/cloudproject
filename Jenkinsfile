@@ -51,12 +51,12 @@ pipeline
     steps {
         script {
             // Tagging and pushing the first image
-            sh 'docker tag webjob-job:latest varha/myonlineapp-webjob-job:newimagev1'
+            sh 'docker tag webjob-web:latest varha/myonlineapp-webjob-web:newimagev1'
             
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub_id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
                 sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
             }
-            sh 'docker push varha/myonlineapp-webjob-job:newimagev1'
+            sh 'docker push varha/myonlineapp-webjob-web:newimagev1'
 
             // Tagging and pushing the second image
             sh 'docker tag mysql:latest varha/myonlineapp-mysql:newimagev2'

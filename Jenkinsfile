@@ -53,21 +53,14 @@ pipeline
             }
         }
 
-        stage('Login to Docker Hub') 
-        {      	
-         steps{                       	
-	sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                		
-	echo 'Login Completed'      
-            }           
-         }
+       stage('Push Image to Docker Hub') {
+    withCredentials([string(credentialsId: 'dockerhub_id', variable: 'DHPWD')]) {
+        sh "echo $DHPWD | docker login -u varha --password-stdin"
+        sh "docker push varha/webjob-job:latest"
+        sh "docker push varha/sql:latest"
+    }
+}
 
-        stage('Push Image to Docker Hub') 
-        {         
-    steps{                            
- sh 'sudo docker push varha/myonllineapp:$BUILD_NUMBER'           
-echo 'Push Image Completed'       
-        }            
-        }
     }
 }
 

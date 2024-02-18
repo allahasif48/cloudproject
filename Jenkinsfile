@@ -4,7 +4,7 @@ pipeline
     options {
         timeout(time:8, unit: 'MINUTES')
             }
-    
+   
     stages {
         stage('SCM Checkout') 
         {
@@ -47,22 +47,29 @@ pipeline
                 }
             }
         }
-          stage('PUSH image to Docker Hub') {
-            steps {
-                withCredentials([string(credentialsId: 'dockerhub_id', variable: 'DHPWD')]) {
-                    sh "docker login -u varha -p ${DHPWD}"
-                }
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub_id') {
-                        sh 'docker push varha/myonlineapp'
-                    }
-                }
+      stage('Push Docker Images to Docker Hub') {
+    steps {
+        script {
+            // Tagging and pushing the first image
+            sh 'docker tag webjob-job:latest varha/myonlineapp-webjob-job:newimagev1'
+            
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub_id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
+                sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
             }
-        }     
+            sh 'docker push varha/myonlineapp-webjob-job:newimagev1'
+
+            // Tagging and pushing the second image
+            sh 'docker tag mysql:latest varha/myonlineapp-mysql:newimagev2'
+            sh 'docker push varha/myonlineapp-mysql:newimagev2'
+        }
+       }
+     }
   }
 }
 
-    
+
+
+
     /* post {
         always {
               // Cleanup or additional steps

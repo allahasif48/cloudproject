@@ -48,19 +48,17 @@ pipeline
                     // Run Docker Compose
                     sh 'docker-compose build'
                     sh 'docker-compose up -d'
-               
                 }
             }
         }
-
        stage('Push Image to Docker Hub') {
-    withCredentials([string(credentialsId: 'dockerhub_id', variable: 'DHPWD')]) {
+        withCredentials([string(credentialsId: 'dockerhub_id', variable: 'DHPWD')]) 
+        {
         sh "echo $DHPWD | docker login -u varha --password-stdin"
         sh "docker push varha/webjob-job:latest"
         sh "docker push varha/sql:latest"
-    }
-}
-
+         }
+       }
     }
 }
 

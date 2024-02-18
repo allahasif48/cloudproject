@@ -48,8 +48,8 @@ pipeline
             }
         }
       stage('Push Docker Images to Docker Hub') {
-    steps {
-        script {
+           steps {
+             script {
             // Tagging and pushing the first image
             sh 'docker tag webjob-web:latest varha/myonlineapp-webjob-web:newimagev1'
             
@@ -61,10 +61,11 @@ pipeline
             // Tagging and pushing the second image
             sh 'docker tag mysql:latest varha/myonlineapp-mysql:newimagev2'
             sh 'docker push varha/myonlineapp-mysql:newimagev2'
-        }
+           }
+         }
        }
-     }
-     post {
+        
+    post {
         always {
               // Cleanup or additional steps
             sh 'docker-compose down'

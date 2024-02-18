@@ -48,18 +48,20 @@ pipeline
             }
         }
     } 
-    
-     post {
-        always {
-              echo "Cleanup or additional steps"
-            // sh 'docker-compose down'
-       }
-    }
 }
 
+    
+    /* post {
+        always {
+              // Cleanup or additional steps
+            sh 'docker-compose down'
+       }
+    }
+  
 
 
-/*
+
+
         stage('Run Docker Compose File')
     {
         sh 'sudo docker-compose build'
@@ -84,4 +86,3 @@ pipeline
           
     }
 */
-

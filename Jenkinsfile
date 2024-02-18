@@ -44,7 +44,7 @@ pipeline
                     // Run Docker Compose
                     sh 'docker-compose build'
                     sh 'docker-compose up -d'
-                //    sh 'docker-compose down'
+               
                 }
             }
         }

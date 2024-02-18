@@ -4,6 +4,10 @@ pipeline
     options {
         timeout(time:8, unit: 'MINUTES')
             }
+    environment {
+        DOCKERHUB_CREDENTIALS =credentials('dockerhub_id')
+    }
+        
     
     stages {
         stage('SCM Checkout') 
@@ -48,7 +52,23 @@ pipeline
                 }
             }
         }
-    } 
+
+        stage('Login to Docker Hub') 
+        {      	
+         steps{                       	
+	sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                		
+	echo 'Login Completed'      
+            }           
+         }
+
+        stage('Push Image to Docker Hub') 
+        {         
+    steps{                            
+ sh 'sudo docker push varha/myonllineapp:$BUILD_NUMBER'           
+echo 'Push Image Completed'       
+        }            
+        }
+    }
 }
 
     

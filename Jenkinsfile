@@ -4,10 +4,6 @@ pipeline
     options {
         timeout(time:8, unit: 'MINUTES')
             }
-    environment {
-        DOCKERHUB_CREDENTIALS =credentials('dockerhub_id')
-    }
-        
     
     stages {
         stage('SCM Checkout') 
@@ -51,15 +47,19 @@ pipeline
                 }
             }
         }
-       stage('Push Image to Docker Hub') {
-        withCredentials([string(credentialsId: 'dockerhub_id', variable: 'DHPWD')]) 
-        {
-        sh "echo $DHPWD | docker login -u varha --password-stdin"
-        sh "docker push varha/webjob-job:latest"
-        sh "docker push varha/sql:latest"
-         }
-       }
-    }
+          stage('PUSH image to Docker Hub') {
+            steps {
+                withCredentials([string(credentialsId: 'dockerhub_id', variable: 'DHPWD')]) {
+                    sh "docker login -u varha -p ${DHPWD}"
+                }
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub_id') {
+                        sh 'docker push varha/myonlineapp'
+                    }
+                }
+            }
+        }     
+  }
 }
 
     

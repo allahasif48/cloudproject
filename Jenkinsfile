@@ -1,6 +1,6 @@
 pipeline 
 {
-    agent any //adqdq
+    agent any 
     options {
         timeout(time:8, unit: 'MINUTES')
             }

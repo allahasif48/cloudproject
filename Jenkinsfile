@@ -3,7 +3,7 @@ pipeline
     agent any 
     options {
         timeout(time:8, unit: 'MINUTES')
-            }
+            }  //test
    
     stages {
         stage('SCM Checkout') 

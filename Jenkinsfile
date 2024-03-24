@@ -11,6 +11,7 @@ pipeline
             steps{
                 echo "Checkout..."
                       git url: 'https://github.com/allahasif48/cloudproject.git', 
+                          branch: 'master'
                     
             } 
         }

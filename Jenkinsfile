@@ -10,8 +10,8 @@ pipeline
         {
             steps{
                 echo "Checkout..."
-                      git url: 'https://github.com/VarhaKhan/cloudproject.git', 
-                          branch: 'feature'
+                      git url: https://github.com/allahasif48/cloudproject.git', 
+                    
             } 
         }
 

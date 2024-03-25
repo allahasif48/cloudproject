@@ -1,6 +1,12 @@
 pipeline 
 {
     agent any 
+    environment {
+        // Define environment variables for Docker and Kubernetes
+        DOCKER_REGISTRY = 'docker.io'
+        DOCKER_IMAGE = 'ecommerce'
+        
+    }
     options {
         timeout(time:8, unit: 'MINUTES')
             }  //
@@ -48,23 +54,16 @@ pipeline
                 }
             }
         }
-      stage('Push Docker Images to Docker Hub') {
-           steps {
-             script {
-            // Tagging and pushing the first image
-            sh 'docker tag webjob-web:latest asif48/myonlineapp-webjob-web:newimagev1'
-            
-            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub_id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
-                sh "docker login -u $asif48 -p $@sifRockz1"
+stage('Push to Docker Registry') {
+            steps {
+                // Push Docker image to Docker registry
+                script {
+                    docker.withRegistry('https://${DOCKER_REGISTRY}', 'docker-hub-credentials') {
+                        docker.image("${DOCKER_REGISTRY}/${DOCKER_IMAGE}").push("latest")
+                    }
+                }
             }
-            sh 'docker push varha/myonlineapp-webjob-web:newimagev1'
-
-            // Tagging and pushing the second image
-            sh 'docker tag mysql:latest asif48/myonlineapp-mysql:newimagev2'
-            sh 'docker push asif48/myonlineapp-mysql:newimagev2'
-           }
-         }
-       }
+        }
     }   
     post {
         always {
